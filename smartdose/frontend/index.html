@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Painel de controle do dispenser SmartDose." />
+    <title>SmartDose — Painel de controle</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#dashboard" aria-label="SmartDose — visão geral">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M8.5 4a4.5 4.5 0 0 0 0 9h7a4.5 4.5 0 0 0 0-9h-7Zm0 2h3v5h-3a2.5 2.5 0 0 1 0-5Zm5 0h2a2.5 2.5 0 0 1 0 5h-2V6Z" />
+            <path d="M6 17.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Zm5 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Zm5 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Z" />
+          </svg>
+        </span>
+        <span>SmartDose</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegação principal">
+        <button class="nav-item active" type="button" data-view="dashboard">Visão geral</button>
+        <button class="nav-item" type="button" data-view="medications">Medicamentos</button>
+        <button class="nav-item" type="button" data-view="schedules">Horários</button>
+        <button class="nav-item" type="button" data-view="history">Histórico</button>
+        <button class="nav-item" type="button" data-view="device">Dispositivo</button>
+      </nav>
+
+      <div class="connection" id="connectionStatus" aria-live="polite">
+        <span class="status-dot"></span>
+        <span>Verificando</span>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="view active" id="dashboardView" data-view-panel="dashboard">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Visão geral</p>
+            <h1>Olá! Sua rotina está organizada.</h1>
+          </div>
+          <div class="date-chip">
+            <span>Hoje</span>
+            <strong id="todayDate"></strong>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card stat-primary">
+            <p>Próxima dose</p>
+            <strong id="nextDoseTime">—</strong>
+            <span id="nextDoseLabel">Nenhum horário ativo</span>
+          </article>
+          <article class="stat-card">
+            <p>Medicamentos</p>
+            <strong id="medicationTotal">0</strong>
+            <span>cadastrados</span>
+          </article>
+          <article class="stat-card">
+            <p>Horários ativos</p>
+            <strong id="activeScheduleTotal">0</strong>
+            <span>na rotina diária</span>
+          </article>
+          <article class="stat-card">
+            <p>Dispositivo</p>
+            <strong class="device-stat" id="deviceStatusText">Offline</strong>
+            <span id="deviceLastSeen">Sem comunicação</span>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-kicker">Hoje</p>
+                <h2>Rotina de medicamentos</h2>
+              </div>
+              <button class="text-button" type="button" data-go-view="schedules">Gerenciar</button>
+            </div>
+            <div class="list-stack" id="dashboardRoutine"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-kicker">Atividade</p>
+                <h2>Eventos recentes</h2>
+              </div>
+              <button class="text-button" type="button" data-go-view="history">Ver todos</button>
+            </div>
+            <div class="event-list compact" id="dashboardEvents"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="medicationsView" data-view-panel="medications" hidden>
+        <div class="page-heading compact-heading">
+          <div>
+            <p class="eyebrow">Medicamentos</p>
+            <h1>O que será dispensado</h1>
+            <p class="page-description">Cadastre a dose e o compartimento correspondente no SmartDose.</p>
+          </div>
+        </div>
+
+        <div class="management-grid">
+          <article class="panel form-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-kicker" id="medicationFormKicker">Novo cadastro</p>
+                <h2 id="medicationFormTitle">Adicionar medicamento</h2>
+              </div>
+            </div>
+            <form id="medicationForm" class="form-stack">
+              <input id="medicationId" type="hidden" />
+              <label>
+                Nome do medicamento
+                <input id="medicationName" type="text" placeholder="Ex.: Losartana" maxlength="100" required />
+              </label>
+              <label>
+                Dose
+                <input id="medicationDosage" type="text" placeholder="Ex.: 1 comprimido" maxlength="100" required />
+              </label>
+              <label>
+                Compartimento
+                <input id="medicationCompartment" type="number" min="1" step="1" placeholder="1" required />
+              </label>
+              <div class="form-actions">
+                <button class="button button-primary" type="submit" id="medicationSubmit">Salvar medicamento</button>
+                <button class="button button-ghost" type="button" id="cancelMedicationEdit" hidden>Cancelar</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="panel collection-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-kicker">Cadastrados</p>
+                <h2>Meus medicamentos</h2>
+              </div>
+              <span class="count-badge" id="medicationCount">0 itens</span>
+            </div>
+            <div class="card-list" id="medicationList"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="schedulesView" data-view-panel="schedules" hidden>
+        <div class="page-heading compact-heading">
+          <div>
+            <p class="eyebrow">Horários</p>
+            <h1>Programação diária</h1>
+            <p class="page-description">Defina quando cada medicamento deve ser disponibilizado.</p>
+          </div>
+        </div>
+
+        <div class="management-grid">
+          <article class="panel form-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-kicker" id="scheduleFormKicker">Novo horário</p>
+                <h2 id="scheduleFormTitle">Adicionar à rotina</h2>
+              </div>
+            </div>
+            <form id="scheduleForm" class="form-stack">
+              <input id="scheduleId" type="hidden" />
+              <label>
+                Medicamento
+                <select id="scheduleMedication" required>
+                  <option value="">Selecione um medicamento</option>
+                </select>
+              </label>
+              <label>
+                Horário
+                <input id="scheduleTime" type="time" required />
+              </label>
+              <div class="form-actions">
+                <button class="button button-secondary" type="submit" id="scheduleSubmit">Adicionar horário</button>
+                <button class="button button-ghost" type="button" id="cancelScheduleEdit" hidden>Cancelar</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="panel collection-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-kicker">Programação</p>
+                <h2>Todos os horários</h2>
+              </div>
+              <span class="count-badge" id="scheduleCount">0 horários</span>
+            </div>
+            <div class="routine-list" id="scheduleList"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="historyView" data-view-panel="history" hidden>
+        <div class="page-heading compact-heading">
+          <div>
+            <p class="eyebrow">Histórico</p>
+            <h1>Eventos do dispenser</h1>
+            <p class="page-description">Acompanhe a disponibilização e a retirada detectada dos medicamentos.</p>
+          </div>
+        </div>
+
+        <div class="notice" role="note">
+          <strong>Importante:</strong> “Medicamento retirado” indica apenas que o dispenser detectou a retirada. Isso não confirma a ingestão.
+        </div>
+
+        <article class="panel history-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">Mais recentes primeiro</p>
+              <h2>Histórico completo</h2>
+            </div>
+            <span class="count-badge" id="eventCount">0 eventos</span>
+          </div>
+          <div class="event-list" id="historyList"></div>
+        </article>
+      </section>
+
+      <section class="view" id="deviceView" data-view-panel="device" hidden>
+        <div class="page-heading compact-heading">
+          <div>
+            <p class="eyebrow">Dispositivo</p>
+            <h1>Seu SmartDose</h1>
+            <p class="page-description">Estado da comunicação entre o dispenser e este servidor.</p>
+          </div>
+        </div>
+
+        <div class="device-grid">
+          <article class="panel device-card" id="deviceCard"></article>
+          <article class="panel connection-guide">
+            <p class="panel-kicker">Conexão ESP32</p>
+            <h2>Como o dispositivo se comunica</h2>
+            <ol>
+              <li>O ESP32 entra na mesma rede Wi-Fi deste computador.</li>
+              <li>Consulta sua programação usando o código do dispositivo.</li>
+              <li>Armazena os horários localmente e usa o RTC DS3231.</li>
+              <li>Envia os eventos de volta para o histórico.</li>
+            </ol>
+            <div class="endpoint-box">
+              <span>Programação</span>
+              <code>GET /api/devices/SMARTDOSE-001/schedule</code>
+            </div>
+            <div class="endpoint-box">
+              <span>Eventos</span>
+              <code>POST /api/devices/SMARTDOSE-001/events</code>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
