@@ -7,8 +7,74 @@
     <title>SmartDose — Painel de controle</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <header class="topbar">
+  <body class="auth-loading">
+    <section class="auth-screen" id="authScreen" aria-labelledby="authTitle">
+      <div class="auth-intro">
+        <a class="brand auth-brand" href="/" aria-label="SmartDose">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M8.5 4a4.5 4.5 0 0 0 0 9h7a4.5 4.5 0 0 0 0-9h-7Zm0 2h3v5h-3a2.5 2.5 0 0 1 0-5Zm5 0h2a2.5 2.5 0 0 1 0 5h-2V6Z" />
+              <path d="M6 17.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Zm5 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Zm5 0a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Z" />
+            </svg>
+          </span>
+          <span>SmartDose</span>
+        </a>
+        <div class="auth-copy">
+          <p class="eyebrow">Rotina de medicamentos</p>
+          <h1>Seu cuidado, organizado em um só lugar.</h1>
+          <p>Cadastre medicamentos, programe horários e acompanhe a comunicação com o seu dispenser.</p>
+        </div>
+        <ul class="auth-points" aria-label="Recursos do SmartDose">
+          <li><span aria-hidden="true">✓</span> Programação simples dos horários</li>
+          <li><span aria-hidden="true">✓</span> Histórico enviado pelo dispositivo</li>
+          <li><span aria-hidden="true">✓</span> Acesso protegido à sua rotina</li>
+        </ul>
+      </div>
+
+      <div class="auth-card">
+        <div class="auth-card-heading">
+          <p class="panel-kicker">Acesso ao painel</p>
+          <h2 id="authTitle">Entre na sua conta</h2>
+          <p id="authSubtitle">Use seu e-mail e senha para continuar.</p>
+        </div>
+
+        <div class="auth-tabs" role="tablist" aria-label="Acesso">
+          <button class="auth-tab active" type="button" role="tab" aria-selected="true" data-auth-mode="login">Entrar</button>
+          <button class="auth-tab" type="button" role="tab" aria-selected="false" data-auth-mode="register">Criar conta</button>
+        </div>
+
+        <form id="loginForm" class="form-stack auth-form">
+          <label>
+            E-mail
+            <input id="loginEmail" type="email" autocomplete="email" placeholder="voce@email.com" maxlength="254" required />
+          </label>
+          <label>
+            Senha
+            <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Sua senha" maxlength="128" required />
+          </label>
+          <button class="button button-primary auth-submit" type="submit">Entrar no painel</button>
+        </form>
+
+        <form id="registerForm" class="form-stack auth-form" hidden>
+          <label>
+            Nome
+            <input id="registerName" type="text" autocomplete="name" placeholder="Como prefere ser chamado?" maxlength="100" required />
+          </label>
+          <label>
+            E-mail
+            <input id="registerEmail" type="email" autocomplete="email" placeholder="voce@email.com" maxlength="254" required />
+          </label>
+          <label>
+            Senha
+            <input id="registerPassword" type="password" autocomplete="new-password" placeholder="No mínimo 8 caracteres" minlength="8" maxlength="128" required />
+          </label>
+          <button class="button button-primary auth-submit" type="submit">Criar conta e entrar</button>
+        </form>
+        <p class="auth-note">Este acesso protege o painel. O ESP32 continua usando a chave do dispositivo.</p>
+      </div>
+    </section>
+
+    <header class="topbar" id="appHeader" hidden>
       <a class="brand" href="#dashboard" aria-label="SmartDose — visão geral">
         <span class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24">
@@ -27,18 +93,24 @@
         <button class="nav-item" type="button" data-view="device">Dispositivo</button>
       </nav>
 
-      <div class="connection" id="connectionStatus" aria-live="polite">
-        <span class="status-dot"></span>
-        <span>Verificando</span>
+      <div class="topbar-actions">
+        <div class="connection" id="connectionStatus" aria-live="polite">
+          <span class="status-dot"></span>
+          <span>Verificando</span>
+        </div>
+        <div class="account-menu">
+          <span id="accountName" class="account-name"></span>
+          <button class="logout-button" id="logoutButton" type="button">Sair</button>
+        </div>
       </div>
     </header>
 
-    <main class="app-shell">
+    <main class="app-shell" id="appMain" hidden>
       <section class="view active" id="dashboardView" data-view-panel="dashboard">
         <div class="page-heading">
           <div>
             <p class="eyebrow">Visão geral</p>
-            <h1>Olá! Sua rotina está organizada.</h1>
+            <h1 id="welcomeMessage">Olá! Sua rotina está organizada.</h1>
           </div>
           <div class="date-chip">
             <span>Hoje</span>

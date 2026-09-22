@@ -4,6 +4,8 @@ const state = {
   events: [],
   devices: [],
 };
+let currentUser = null;
+let refreshTimer;
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -41,7 +43,9 @@ async function request(url, options = {}) {
 
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
-    throw new Error(body.message || 'Não foi possível concluir a operação.');
+    const error = new Error(body.message || 'Não foi possível concluir a operação.');
+    error.status = response.status;
+    throw error;
   }
 
   if (response.status === 204) {
@@ -49,6 +53,42 @@ async function request(url, options = {}) {
   }
 
   return response.json();
+}
+
+function setAuthMode(mode) {
+  const registering = mode === 'register';
+  $('#loginForm').hidden = registering;
+  $('#registerForm').hidden = !registering;
+  $('#authTitle').textContent = registering ? 'Crie sua conta' : 'Entre na sua conta';
+  $('#authSubtitle').textContent = registering
+    ? 'Comece a organizar a rotina de medicamentos.'
+    : 'Use seu e-mail e senha para continuar.';
+
+  $$('[data-auth-mode]').forEach((button) => {
+    const active = button.dataset.authMode === mode;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-selected', String(active));
+  });
+}
+
+function showAuthentication() {
+  currentUser = null;
+  clearInterval(refreshTimer);
+  $('#appHeader').hidden = true;
+  $('#appMain').hidden = true;
+  $('#authScreen').hidden = false;
+  document.body.classList.remove('auth-loading');
+  setAuthMode('login');
+}
+
+function showApplication(user) {
+  currentUser = user;
+  $('#accountName').textContent = user.name;
+  $('#welcomeMessage').textContent = `Olá, ${user.name}! Sua rotina está organizada.`;
+  $('#authScreen').hidden = true;
+  $('#appHeader').hidden = false;
+  $('#appMain').hidden = false;
+  document.body.classList.remove('auth-loading');
 }
 
 function showToast(message, type = 'success') {
@@ -437,6 +477,12 @@ scheduleForm.addEventListener('submit', async (event) => {
 });
 
 document.addEventListener('click', async (event) => {
+  const authMode = event.target.closest('[data-auth-mode]');
+  if (authMode) {
+    setAuthMode(authMode.dataset.authMode);
+    return;
+  }
+
   const navigation = event.target.closest('[data-view], [data-go-view]');
   if (navigation) {
     showView(navigation.dataset.view || navigation.dataset.goView);
@@ -507,6 +553,58 @@ document.addEventListener('click', async (event) => {
 $('#cancelMedicationEdit').addEventListener('click', resetMedicationForm);
 $('#cancelScheduleEdit').addEventListener('click', resetScheduleForm);
 
+$('#loginForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const button = event.currentTarget.querySelector('button[type="submit"]');
+  button.disabled = true;
+
+  try {
+    const { user } = await request('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: $('#loginEmail').value,
+        password: $('#loginPassword').value,
+      }),
+    });
+    await startApplication(user);
+  } catch (error) {
+    showToast(error.message, 'error');
+  } finally {
+    button.disabled = false;
+  }
+});
+
+$('#registerForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const button = event.currentTarget.querySelector('button[type="submit"]');
+  button.disabled = true;
+
+  try {
+    const { user } = await request('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: $('#registerName').value,
+        email: $('#registerEmail').value,
+        password: $('#registerPassword').value,
+      }),
+    });
+    await startApplication(user);
+  } catch (error) {
+    showToast(error.message, 'error');
+  } finally {
+    button.disabled = false;
+  }
+});
+
+$('#logoutButton').addEventListener('click', async () => {
+  try {
+    await request('/api/auth/logout', { method: 'POST' });
+  } catch (_error) {
+    // A sessão local deve ser encerrada mesmo se a API estiver indisponível.
+  }
+  showAuthentication();
+});
+
 async function refreshLiveData() {
   try {
     const [events, devices] = await Promise.all([
@@ -520,11 +618,16 @@ async function refreshLiveData() {
     renderDevice();
     await checkConnection();
   } catch (_error) {
+    if (_error.status === 401) {
+      showAuthentication();
+      return;
+    }
     await checkConnection();
   }
 }
 
-async function initialize() {
+async function startApplication(user) {
+  showApplication(user);
   $('#todayDate').textContent = new Intl.DateTimeFormat('pt-BR', {
     weekday: 'long',
     day: '2-digit',
@@ -544,7 +647,20 @@ async function initialize() {
     showToast(error.message, 'error');
   }
 
-  setInterval(refreshLiveData, 30_000);
+  clearInterval(refreshTimer);
+  refreshTimer = setInterval(refreshLiveData, 30_000);
+}
+
+async function initialize() {
+  try {
+    const { user } = await request('/api/auth/me');
+    await startApplication(user);
+  } catch (error) {
+    if (error.status !== 401) {
+      showToast('Não foi possível conectar ao servidor.', 'error');
+    }
+    showAuthentication();
+  }
 }
 
 initialize();

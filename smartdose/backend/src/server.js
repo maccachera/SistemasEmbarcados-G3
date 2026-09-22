@@ -7,6 +7,8 @@ const medicationRoutes = require('./routes/medications');
 const scheduleRoutes = require('./routes/schedules');
 const deviceRoutes = require('./routes/devices');
 const eventRoutes = require('./routes/events');
+const authRoutes = require('./routes/auth');
+const requireAuth = require('./middleware/requireAuth');
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -31,16 +33,19 @@ app.get('/api/health', async (_request, response) => {
   }
 });
 
-app.use('/api/medications', medicationRoutes);
-app.use('/api/schedules', scheduleRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/medications', requireAuth, medicationRoutes);
+app.use('/api/schedules', requireAuth, scheduleRoutes);
 app.use('/api/devices', deviceRoutes);
-app.use('/api/events', eventRoutes);
+app.use('/api/events', requireAuth, eventRoutes);
 
 app.use('/api', (_request, response) => {
   return response.status(404).json({ message: 'Endpoint não encontrado.' });
 });
 
-const frontendPath = path.resolve(__dirname, '../../frontend');
+const frontendPath = process.env.VERCEL
+  ? path.resolve(__dirname, '../public')
+  : path.resolve(__dirname, '../../frontend');
 app.use(express.static(frontendPath));
 
 app.use((error, _request, response, _next) => {
@@ -51,25 +56,29 @@ app.use((error, _request, response, _next) => {
   });
 });
 
-const server = app.listen(port, () => {
-  console.log(`SmartDose API disponível em http://localhost:${port}`);
-});
+if (require.main === module) {
+  const server = app.listen(port, () => {
+    console.log(`SmartDose API disponível em http://localhost:${port}`);
+  });
 
-let isShuttingDown = false;
+  let isShuttingDown = false;
 
-async function shutdown(signal) {
-  if (isShuttingDown) {
-    return;
+  async function shutdown(signal) {
+    if (isShuttingDown) {
+      return;
+    }
+
+    isShuttingDown = true;
+    console.log(`\n${signal} recebido. Encerrando a API...`);
+
+    server.close(async () => {
+      await prisma.$disconnect();
+      process.exit(0);
+    });
   }
 
-  isShuttingDown = true;
-  console.log(`\n${signal} recebido. Encerrando a API...`);
-
-  server.close(async () => {
-    await prisma.$disconnect();
-    process.exit(0);
-  });
+  process.on('SIGINT', () => shutdown('SIGINT'));
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
 }
 
-process.on('SIGINT', () => shutdown('SIGINT'));
-process.on('SIGTERM', () => shutdown('SIGTERM'));
+module.exports = app;

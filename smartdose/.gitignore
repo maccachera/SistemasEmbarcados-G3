@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Arquivos estáticos gerados para o deploy no Vercel
+backend/public/
+
 # Environment variables and secrets
 .env
 .env.*

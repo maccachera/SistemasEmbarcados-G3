@@ -10,7 +10,9 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
-    "prisma:seed": "prisma db seed"
+    "prisma:seed": "prisma db seed",
+    "vercel:prepare": "node scripts/prepare-vercel.js",
+    "vercel-build": "prisma generate && prisma migrate deploy && npm run vercel:prepare"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

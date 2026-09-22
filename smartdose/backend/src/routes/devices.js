@@ -1,6 +1,7 @@
 const express = require('express');
 const prisma = require('../lib/prisma');
 const deviceAuth = require('../middleware/deviceAuth');
+const requireAuth = require('../middleware/requireAuth');
 const { createDoseEvent, EventValidationError } = require('../services/doseEvents');
 
 const router = express.Router();
@@ -17,7 +18,7 @@ function withStatus(device) {
   };
 }
 
-router.get('/', async (_request, response, next) => {
+router.get('/', requireAuth, async (_request, response, next) => {
   try {
     const devices = await prisma.device.findMany({
       orderBy: { name: 'asc' },
@@ -28,7 +29,7 @@ router.get('/', async (_request, response, next) => {
   }
 });
 
-router.post('/', async (request, response, next) => {
+router.post('/', requireAuth, async (request, response, next) => {
   const name = String(request.body.name ?? '').trim();
   const deviceCode = String(request.body.deviceCode ?? '').trim().toUpperCase();
 
@@ -118,7 +119,7 @@ router.post('/:deviceCode/events', deviceAuth, async (request, response, next) =
   }
 });
 
-router.get('/:id', async (request, response, next) => {
+router.get('/:id', requireAuth, async (request, response, next) => {
   const id = Number(request.params.id);
 
   if (!Number.isInteger(id)) {

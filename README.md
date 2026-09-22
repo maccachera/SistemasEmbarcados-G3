@@ -2,7 +2,7 @@
 
 Sistema web para gerenciamento de um dispenser automático de medicamentos baseado em IoT.
 
-O SmartDose permite cadastrar medicamentos, configurar horários, acompanhar eventos do dispenser e disponibilizar a programação para um ESP32 por meio de uma API REST.
+O SmartDose permite cadastrar medicamentos, configurar horários, acompanhar eventos do dispenser e disponibilizar a programação para um ESP32 por meio de uma API REST. O painel possui cadastro e login locais; o ESP32 permanece autenticado separadamente pela chave do dispositivo.
 
 > **Aviso:** o evento “medicamento retirado” indica apenas que o dispenser detectou a retirada. Isso não confirma que o medicamento foi ingerido.
 
@@ -15,6 +15,7 @@ O SmartDose permite cadastrar medicamentos, configurar horários, acompanhar eve
 - Histórico de eventos enviados pelo dispenser.
 - Monitoramento do estado do dispositivo.
 - API REST para comunicação com o frontend e o ESP32.
+- Cadastro e login locais para acesso ao painel.
 - Autenticação dos endpoints do ESP32 por API key.
 - Armazenamento persistente no PostgreSQL.
 - Interface responsiva para celular, tablet e computador.
@@ -108,7 +109,7 @@ cp .env.example .env
 cp backend/.env.example backend/.env
 ```
 
-Altere os valores `change_me` nos arquivos `.env`. Use a mesma senha do PostgreSQL na variável `DATABASE_URL` e defina uma `DEVICE_API_KEY` segura.
+Altere os valores `change_me` nos arquivos `.env`. Use a mesma senha do PostgreSQL nas variáveis `DATABASE_URL` e `DIRECT_URL`, defina uma `DEVICE_API_KEY` segura e uma `AUTH_SESSION_SECRET` longa e aleatória no arquivo `backend/.env`.
 
 Os arquivos `.env` são ignorados pelo Git e não devem ser versionados.
 
@@ -141,6 +142,8 @@ Acesse:
 - Aplicação: [http://localhost:3000](http://localhost:3000)
 - Health check: [http://localhost:3000/api/health](http://localhost:3000/api/health)
 
+Na primeira visita, use a opção **Criar conta** para cadastrar o acesso local ao painel.
+
 Resposta esperada do health check:
 
 ```json
@@ -158,6 +161,7 @@ O sistema utiliza as seguintes entidades:
 - `Medication`: representa um medicamento cadastrado.
 - `Schedule`: representa um horário de medicamento.
 - `DoseEvent`: representa um evento enviado pelo dispenser.
+- `User`: representa uma conta que acessa o painel.
 
 Tipos de evento disponíveis:
 
@@ -167,6 +171,17 @@ Tipos de evento disponíveis:
 - `DEVICE_ERROR`
 
 ## API REST
+
+### Autenticação
+
+```text
+POST /api/auth/register
+POST /api/auth/login
+POST /api/auth/logout
+GET  /api/auth/me
+```
+
+Os endpoints administrativos abaixo exigem uma sessão iniciada pelo navegador.
 
 ### Medicamentos
 
@@ -234,6 +249,8 @@ Um exemplo de firmware está disponível em [`smartdose/docs/esp32-example.ino`]
 
 Durante o desenvolvimento, o ESP32 deve utilizar o IP local do computador em vez de `localhost`.
 
+O ESP32 não usa o login do painel: ele continua usando somente o cabeçalho `X-Device-Key`.
+
 ## Scripts disponíveis
 
 Dentro de `smartdose/backend`:
@@ -253,7 +270,12 @@ npm run prisma:seed      Cria os dados iniciais de desenvolvimento
 - O Prisma é utilizado para acesso ao banco.
 - Entradas da API são validadas.
 - Endpoints do ESP32 exigem uma API key.
-- Para produção, devem ser adicionados HTTPS, autenticação de usuários e chaves individuais por dispositivo.
+- Senhas de usuários são armazenadas como hash e a sessão é mantida por cookie HTTP-only.
+- Para produção, devem ser adicionados HTTPS e chaves individuais por dispositivo.
+
+## Demonstração no Vercel
+
+O backend já contém a configuração necessária para publicar uma demonstração no Vercel, com o Supabase fornecendo o PostgreSQL. As URLs de conexão e chaves devem ser cadastradas apenas nas variáveis de ambiente do Vercel; consulte [`smartdose/README.md`](smartdose/README.md) para os nomes e o tipo de conexão de cada variável.
 
 ## Encerrando o ambiente
 
