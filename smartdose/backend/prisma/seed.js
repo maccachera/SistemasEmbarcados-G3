@@ -19,7 +19,6 @@ async function main() {
       data: {
         name: 'Losartana',
         dosage: '1 comprimido',
-        compartment: 2,
         schedules: {
           create: [
             { time: '08:00' },

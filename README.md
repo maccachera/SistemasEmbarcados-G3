@@ -2,7 +2,7 @@
 
 Sistema web para gerenciamento de um dispenser automático de medicamentos baseado em IoT.
 
-O SmartDose permite cadastrar medicamentos, configurar horários, definir compartimentos, acompanhar eventos do dispenser e disponibilizar a programação para um ESP32 por meio de uma API REST.
+O SmartDose permite cadastrar medicamentos, configurar horários, acompanhar eventos do dispenser e disponibilizar a programação para um ESP32 por meio de uma API REST.
 
 > **Aviso:** o evento “medicamento retirado” indica apenas que o dispenser detectou a retirada. Isso não confirma que o medicamento foi ingerido.
 

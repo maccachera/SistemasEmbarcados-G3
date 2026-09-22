@@ -48,7 +48,6 @@ router.get('/:id', async (request, response, next) => {
 router.post('/', async (request, response, next) => {
   const name = String(request.body.name ?? '').trim();
   const dosage = String(request.body.dosage ?? '').trim();
-  const compartment = Number(request.body.compartment);
 
   if (!name || !dosage) {
     return response.status(400).json({
@@ -56,15 +55,9 @@ router.post('/', async (request, response, next) => {
     });
   }
 
-  if (!Number.isInteger(compartment) || compartment < 1) {
-    return response.status(400).json({
-      message: 'O compartimento deve ser um número inteiro maior que zero.',
-    });
-  }
-
   try {
     const medication = await prisma.medication.create({
-      data: { name, dosage, compartment },
+      data: { name, dosage },
       include: { schedules: true },
     });
 
@@ -78,7 +71,6 @@ router.put('/:id', async (request, response, next) => {
   const id = Number(request.params.id);
   const name = String(request.body.name ?? '').trim();
   const dosage = String(request.body.dosage ?? '').trim();
-  const compartment = Number(request.body.compartment);
 
   if (!Number.isInteger(id)) {
     return response.status(400).json({ message: 'Medicamento inválido.' });
@@ -90,16 +82,10 @@ router.put('/:id', async (request, response, next) => {
     });
   }
 
-  if (!Number.isInteger(compartment) || compartment < 1) {
-    return response.status(400).json({
-      message: 'O compartimento deve ser um número inteiro maior que zero.',
-    });
-  }
-
   try {
     const medication = await prisma.medication.update({
       where: { id },
-      data: { name, dosage, compartment },
+      data: { name, dosage },
       include: {
         schedules: { orderBy: { time: 'asc' } },
       },

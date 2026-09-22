@@ -63,15 +63,7 @@ bool syncSchedule() {
     int scheduleId = schedule["scheduleId"];
     int medicationId = schedule["medicationId"];
     const char* time = schedule["time"];
-    int compartment = schedule["compartment"];
-
-    Serial.printf(
-      "Horário %s: schedule=%d medication=%d compartment=%d\n",
-      time,
-      scheduleId,
-      medicationId,
-      compartment
-    );
+    Serial.printf("Horário %s: schedule=%d medication=%d\n", time, scheduleId, medicationId);
 
     // Integre estes valores com o RTC DS3231 e o controle do motor.
   }

@@ -79,7 +79,6 @@ router.get('/:deviceCode/schedule', deviceAuth, async (request, response, next) 
         name: item.medication.name,
         dosage: item.medication.dosage,
         time: item.time,
-        compartment: item.medication.compartment,
       })),
     });
   } catch (error) {

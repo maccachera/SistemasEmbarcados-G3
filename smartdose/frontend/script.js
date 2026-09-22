@@ -114,7 +114,7 @@ function renderMedicationOptions(selectedId = medicationSelect.value) {
   state.medications.forEach((medication) => {
     medicationSelect.add(
       new Option(
-        `${medication.name} · compartimento ${medication.compartment}`,
+        `${medication.name} · ${medication.dosage}`,
         medication.id,
       ),
     );
@@ -166,7 +166,7 @@ function renderDashboard() {
         <span class="routine-time">${escapeHtml(schedule.time)}</span>
         <div class="item-info">
           <strong>${escapeHtml(schedule.medication.name)}</strong>
-          <span>${escapeHtml(schedule.medication.dosage)} · Compartimento ${schedule.medication.compartment}</span>
+          <span>${escapeHtml(schedule.medication.dosage)}</span>
         </div>
         <span class="event-badge">Programado</span>
       </div>
@@ -187,9 +187,7 @@ function renderMedications() {
 
   list.innerHTML = state.medications.map((medication) => `
     <div class="medication-card">
-      <div class="compartment" aria-label="Compartimento ${medication.compartment}">
-        <div><small>Comp.</small>${medication.compartment}</div>
-      </div>
+      <div class="medication-initial" aria-hidden="true">${escapeHtml(medication.name.slice(0, 1).toUpperCase())}</div>
       <div class="item-info">
         <strong>${escapeHtml(medication.name)}</strong>
         <span>${escapeHtml(medication.dosage)} · ${medication.schedules.length} ${medication.schedules.length === 1 ? 'horário' : 'horários'}</span>
@@ -216,7 +214,7 @@ function renderSchedules() {
       <span class="routine-time">${escapeHtml(schedule.time)}</span>
       <div class="item-info">
         <strong>${escapeHtml(schedule.medication.name)}</strong>
-        <span>${escapeHtml(schedule.medication.dosage)} · Compartimento ${schedule.medication.compartment}</span>
+        <span>${escapeHtml(schedule.medication.dosage)}</span>
       </div>
       <div class="item-actions">
         <button
@@ -359,7 +357,6 @@ function startMedicationEdit(id) {
   $('#medicationId').value = medication.id;
   $('#medicationName').value = medication.name;
   $('#medicationDosage').value = medication.dosage;
-  $('#medicationCompartment').value = medication.compartment;
   $('#medicationFormKicker').textContent = 'Editando cadastro';
   $('#medicationFormTitle').textContent = medication.name;
   $('#medicationSubmit').textContent = 'Salvar alterações';
@@ -403,7 +400,6 @@ medicationForm.addEventListener('submit', async (event) => {
       body: JSON.stringify({
         name: $('#medicationName').value,
         dosage: $('#medicationDosage').value,
-        compartment: Number($('#medicationCompartment').value),
       }),
     });
     resetMedicationForm();

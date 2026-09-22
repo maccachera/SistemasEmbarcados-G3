@@ -28,7 +28,6 @@ model Medication {
   id           Int         @id @default(autoincrement())
   name         String
   dosage       String
-  compartment  Int
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   schedules    Schedule[]

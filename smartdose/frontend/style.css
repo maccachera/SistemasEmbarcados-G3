@@ -366,7 +366,7 @@ h3 { letter-spacing: -0.015em; }
   gap: 14px;
 }
 
-.compartment {
+.medication-initial {
   width: 48px;
   height: 48px;
   display: grid;
@@ -377,7 +377,6 @@ h3 { letter-spacing: -0.015em; }
   font-weight: 900;
 }
 
-.compartment small { display: block; font-size: 0.58rem; font-weight: 800; text-transform: uppercase; }
 
 .form-stack { display: grid; gap: 17px; }
 
