@@ -1,32 +1,32 @@
 # SmartDose
 
-Sistema web para gerenciamento de um dispenser automático de medicamentos baseado em IoT.
+Web-based system for managing an IoT-based automatic medication dispenser.
 
-O SmartDose permite cadastrar medicamentos, configurar horários, acompanhar eventos do dispenser e disponibilizar a programação para um ESP32 por meio de uma API REST. O painel possui cadastro e login locais; o ESP32 permanece autenticado separadamente pela chave do dispositivo.
+SmartDose allows users to register medications, configure schedules, monitor dispenser events, and provide scheduling information to an ESP32 through a REST API. The dashboard includes local registration and login, while the ESP32 is authenticated separately using the device key.
 
-> **Aviso:** o evento “medicamento retirado” indica apenas que o dispenser detectou a retirada. Isso não confirma que o medicamento foi ingerido.
+> **Notice:** the “medication removed” event only indicates that the dispenser detected the medication being removed. It does not confirm that the medication was ingested.
 
-## Funcionalidades
+## Features
 
-- Cadastro, edição e exclusão de medicamentos.
-- Configuração de múltiplos horários por medicamento.
-- Ativação e desativação de horários.
-- Dashboard com próxima dose e resumo da rotina.
-- Histórico de eventos enviados pelo dispenser.
-- Monitoramento do estado do dispositivo.
-- API REST para comunicação com o frontend e o ESP32.
-- Cadastro e login locais para acesso ao painel.
-- Autenticação dos endpoints do ESP32 por API key.
-- Armazenamento persistente no PostgreSQL.
-- Interface responsiva para celular, tablet e computador.
+- Medication registration, editing, and deletion.
+- Configuration of multiple schedules for each medication.
+- Schedule activation and deactivation.
+- Dashboard displaying the next dose and a summary of the medication routine.
+- History of events sent by the dispenser.
+- Device status monitoring.
+- REST API for communication with the frontend and the ESP32.
+- Local registration and login for dashboard access.
+- ESP32 endpoint authentication using an API key.
+- Persistent storage using PostgreSQL.
+- Responsive interface for smartphones, tablets, and computers.
 
-## Tecnologias
+## Technologies
 
 ### Frontend
 
 - HTML
 - CSS
-- JavaScript puro
+- Vanilla JavaScript
 - Fetch API
 
 ### Backend
@@ -36,15 +36,15 @@ O SmartDose permite cadastrar medicamentos, configurar horários, acompanhar eve
 - Prisma ORM
 - PostgreSQL
 
-### Ambiente
+### Environment
 
 - Docker
 - Docker Compose
 
-## Arquitetura
+## Architecture
 
 ```text
-Navegador
+Browser
     |
     | HTTP / JSON
     v
@@ -55,9 +55,9 @@ Express API ---- Prisma ---- PostgreSQL
   ESP32
 ```
 
-O ESP32 não acessa o PostgreSQL diretamente. Toda comunicação passa pela API.
+The ESP32 does not access PostgreSQL directly. All communication goes through the API.
 
-## Estrutura do projeto
+## Project Structure
 
 ```text
 smartdose/
@@ -85,43 +85,43 @@ smartdose/
 └── README.md
 ```
 
-## Pré-requisitos
+## Prerequisites
 
-- Node.js 20 ou superior
+- Node.js 20 or higher
 - npm
 - Git
 - Docker
 - Docker Compose
 
-## Instalação
+## Installation
 
-Clone o repositório:
+Clone the repository:
 
 ```bash
 git clone https://github.com/maccachera/SistemasEmbarcados-G3.git
 cd SistemasEmbarcados-G3/smartdose
 ```
 
-Crie os arquivos locais de ambiente:
+Create the local environment files:
 
 ```bash
 cp .env.example .env
 cp backend/.env.example backend/.env
 ```
 
-Altere os valores `change_me` nos arquivos `.env`. Use a mesma senha do PostgreSQL nas variáveis `DATABASE_URL` e `DIRECT_URL`, defina uma `DEVICE_API_KEY` segura e uma `AUTH_SESSION_SECRET` longa e aleatória no arquivo `backend/.env`.
+Replace the `change_me` values in the `.env` files. Use the same PostgreSQL password in the `DATABASE_URL` and `DIRECT_URL` variables, define a secure `DEVICE_API_KEY`, and set a long, randomly generated `AUTH_SESSION_SECRET` in the `backend/.env` file.
 
-Os arquivos `.env` são ignorados pelo Git e não devem ser versionados.
+The `.env` files are ignored by Git and should not be committed to version control.
 
-## Executando o projeto
+## Running the Project
 
-Inicie o PostgreSQL:
+Start PostgreSQL:
 
 ```bash
 docker compose up -d
 ```
 
-Instale e prepare o backend:
+Install and prepare the backend:
 
 ```bash
 cd backend
@@ -131,20 +131,20 @@ npm run prisma:deploy
 npm run prisma:seed
 ```
 
-Inicie o servidor:
+Start the server:
 
 ```bash
 npm run dev
 ```
 
-Acesse:
+Access:
 
-- Aplicação: [http://localhost:3000](http://localhost:3000)
-- Health check: [http://localhost:3000/api/health](http://localhost:3000/api/health)
+- Application: http://localhost:3000
+- Health check: http://localhost:3000/api/health
 
-Na primeira visita, use a opção **Criar conta** para cadastrar o acesso local ao painel.
+On your first visit, use the **Create Account** option to create a local account for accessing the dashboard.
 
-Resposta esperada do health check:
+Expected health check response:
 
 ```json
 {
@@ -153,26 +153,26 @@ Resposta esperada do health check:
 }
 ```
 
-## Banco de dados
+## Database
 
-O sistema utiliza as seguintes entidades:
+The system uses the following entities:
 
-- `Device`: representa um dispenser físico.
-- `Medication`: representa um medicamento cadastrado.
-- `Schedule`: representa um horário de medicamento.
-- `DoseEvent`: representa um evento enviado pelo dispenser.
-- `User`: representa uma conta que acessa o painel.
+- `Device`: represents a physical dispenser.
+- `Medication`: represents a registered medication.
+- `Schedule`: represents a medication schedule.
+- `DoseEvent`: represents an event sent by the dispenser.
+- `User`: represents an account with access to the dashboard.
 
-Tipos de evento disponíveis:
+Available event types:
 
 - `DOSE_DISPENSED`
 - `MEDICATION_REMOVED`
 - `DOSE_NOT_REMOVED`
 - `DEVICE_ERROR`
 
-## API REST
+## REST API
 
-### Autenticação
+### Authentication
 
 ```text
 POST /api/auth/register
@@ -181,9 +181,9 @@ POST /api/auth/logout
 GET  /api/auth/me
 ```
 
-Os endpoints administrativos abaixo exigem uma sessão iniciada pelo navegador.
+The administrative endpoints below require an active browser session.
 
-### Medicamentos
+### Medications
 
 ```text
 GET    /api/medications
@@ -193,7 +193,7 @@ PUT    /api/medications/:id
 DELETE /api/medications/:id
 ```
 
-### Horários
+### Schedules
 
 ```text
 GET    /api/schedules
@@ -202,7 +202,7 @@ PUT    /api/schedules/:id
 DELETE /api/schedules/:id
 ```
 
-### Dispositivos
+### Devices
 
 ```text
 GET  /api/devices
@@ -210,23 +210,23 @@ GET  /api/devices/:id
 POST /api/devices
 ```
 
-### Eventos
+### Events
 
 ```text
 GET  /api/events
 POST /api/events
 ```
 
-## Comunicação com o ESP32
+## ESP32 Communication
 
-O ESP32 consulta sua programação por meio de:
+The ESP32 retrieves its schedule through:
 
 ```http
 GET /api/devices/SMARTDOSE-001/schedule
 X-Device-Key: sua_api_key
 ```
 
-Para enviar eventos:
+To send events:
 
 ```http
 POST /api/devices/SMARTDOSE-001/events
@@ -234,7 +234,7 @@ Content-Type: application/json
 X-Device-Key: sua_api_key
 ```
 
-Exemplo de corpo:
+Example request body:
 
 ```json
 {
@@ -245,41 +245,41 @@ Exemplo de corpo:
 }
 ```
 
-Um exemplo de firmware está disponível em [`smartdose/docs/esp32-example.ino`](smartdose/docs/esp32-example.ino).
+A firmware example is available at `smartdose/docs/esp32-example.ino`.
 
-Durante o desenvolvimento, o ESP32 deve utilizar o IP local do computador em vez de `localhost`.
+During development, the ESP32 must use the computer's local IP address instead of `localhost`.
 
-O ESP32 não usa o login do painel: ele continua usando somente o cabeçalho `X-Device-Key`.
+The ESP32 does not use the dashboard login system. It continues to authenticate exclusively through the `X-Device-Key` header.
 
-## Scripts disponíveis
+## Available Scripts
 
-Dentro de `smartdose/backend`:
+Inside `smartdose/backend`:
 
 ```text
-npm run dev              Executa com reinicialização automática
-npm start                Executa com Node.js
-npm run prisma:generate  Gera o Prisma Client
-npm run prisma:deploy    Aplica as migrations existentes
-npm run prisma:seed      Cria os dados iniciais de desenvolvimento
+npm run dev              Runs with automatic restart
+npm start                Runs with Node.js
+npm run prisma:generate  Generates the Prisma Client
+npm run prisma:deploy    Applies existing migrations
+npm run prisma:seed      Creates the initial development data
 ```
 
-## Segurança
+## Security
 
-- Credenciais não são armazenadas no código.
-- Arquivos `.env` não são enviados ao Git.
-- O Prisma é utilizado para acesso ao banco.
-- Entradas da API são validadas.
-- Endpoints do ESP32 exigem uma API key.
-- Senhas de usuários são armazenadas como hash e a sessão é mantida por cookie HTTP-only.
-- Para produção, devem ser adicionados HTTPS e chaves individuais por dispositivo.
+- Credentials are not stored directly in the source code.
+- `.env` files are not committed to Git.
+- Prisma is used for database access.
+- API inputs are validated.
+- ESP32 endpoints require an API key.
+- User passwords are stored as hashes, and sessions are maintained using HTTP-only cookies.
+- For production environments, HTTPS and individual keys for each device should be implemented.
 
-## Demonstração no Vercel
+## Vercel Deployment
 
-O backend já contém a configuração necessária para publicar uma demonstração no Vercel, com o Supabase fornecendo o PostgreSQL. As URLs de conexão e chaves devem ser cadastradas apenas nas variáveis de ambiente do Vercel; consulte [`smartdose/README.md`](smartdose/README.md) para os nomes e o tipo de conexão de cada variável.
+The backend already includes the configuration required to deploy a demonstration version on Vercel, with Supabase providing the PostgreSQL database. Connection URLs and keys should only be configured through Vercel environment variables. Refer to `smartdose/README.md` for the names and connection types of each variable.
 
-## Encerrando o ambiente
+## Stopping the Environment
 
-Interrompa a API com `Ctrl+C` e pare o PostgreSQL com:
+Stop the API using `Ctrl+C` and stop PostgreSQL with:
 
 ```bash
 docker compose down
