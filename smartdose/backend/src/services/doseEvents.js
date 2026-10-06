@@ -29,7 +29,7 @@ function parseDate(value, fieldName, required = false) {
   return date;
 }
 
-async function createDoseEvent({ deviceId, payload }) {
+async function createDoseEvent({ deviceId, ownerUserId = null, payload }) {
   const eventType = String(payload.eventType ?? '');
   let medicationId = payload.medicationId == null ? null : Number(payload.medicationId);
   const scheduleId = payload.scheduleId == null ? null : Number(payload.scheduleId);
@@ -57,6 +57,10 @@ async function createDoseEvent({ deviceId, payload }) {
       throw new EventValidationError('O horário não pertence ao medicamento informado.');
     }
 
+    if (schedule.deviceId !== deviceId) {
+      throw new EventValidationError('O horário não pertence ao dispositivo informado.');
+    }
+
     medicationId = schedule.medicationId;
   }
 
@@ -64,6 +68,10 @@ async function createDoseEvent({ deviceId, payload }) {
     const medication = await prisma.medication.findUnique({ where: { id: medicationId } });
     if (!medication) {
       throw new EventValidationError('Medicamento não encontrado.', 404);
+    }
+
+    if (medication.userId !== ownerUserId) {
+      throw new EventValidationError('O medicamento não pertence ao responsável pelo dispositivo.');
     }
   }
 

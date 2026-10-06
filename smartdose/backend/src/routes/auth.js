@@ -36,12 +36,31 @@ router.post('/register', async (request, response, next) => {
   }
 
   try {
-    const user = await prisma.user.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        passwordHash: await hashPassword(data.password),
-      },
+    const passwordHash = await hashPassword(data.password);
+    const user = await prisma.$transaction(async (transaction) => {
+      const createdUser = await transaction.user.create({
+        data: {
+          name: data.name,
+          email: data.email,
+          passwordHash,
+        },
+      });
+
+      const firstUser = await transaction.user.findFirst({ orderBy: { id: 'asc' } });
+      if (firstUser.id === createdUser.id) {
+        await Promise.all([
+          transaction.device.updateMany({
+            where: { userId: null },
+            data: { userId: createdUser.id },
+          }),
+          transaction.medication.updateMany({
+            where: { userId: null },
+            data: { userId: createdUser.id },
+          }),
+        ]);
+      }
+
+      return createdUser;
     });
 
     setSessionCookie(response, user);

@@ -3,24 +3,27 @@ const prisma = require('../lib/prisma');
 const deviceAuth = require('../middleware/deviceAuth');
 const requireAuth = require('../middleware/requireAuth');
 const { createDoseEvent, EventValidationError } = require('../services/doseEvents');
+const { generateDeviceKey, hashDeviceKey } = require('../services/deviceKeys');
 
 const router = express.Router();
 const onlineWindowMs = 5 * 60 * 1000;
 
 function withStatus(device) {
+  const { apiKeyHash: _apiKeyHash, ...publicDevice } = device;
   const online = device.lastSeenAt
     ? Date.now() - new Date(device.lastSeenAt).getTime() <= onlineWindowMs
     : false;
 
   return {
-    ...device,
+    ...publicDevice,
     status: online ? 'online' : 'offline',
   };
 }
 
-router.get('/', requireAuth, async (_request, response, next) => {
+router.get('/', requireAuth, async (request, response, next) => {
   try {
     const devices = await prisma.device.findMany({
+      where: { userId: request.user.id },
       orderBy: { name: 'asc' },
     });
     return response.json(devices.map(withStatus));
@@ -40,8 +43,16 @@ router.post('/', requireAuth, async (request, response, next) => {
   }
 
   try {
-    const device = await prisma.device.create({ data: { name, deviceCode } });
-    return response.status(201).json(withStatus(device));
+    const apiKey = generateDeviceKey();
+    const device = await prisma.device.create({
+      data: {
+        name,
+        deviceCode,
+        userId: request.user.id,
+        apiKeyHash: hashDeviceKey(apiKey),
+      },
+    });
+    return response.status(201).json({ ...withStatus(device), apiKey });
   } catch (error) {
     if (error.code === 'P2002') {
       return response.status(409).json({ message: 'Esse código de dispositivo já existe.' });
@@ -52,17 +63,14 @@ router.post('/', requireAuth, async (request, response, next) => {
 
 router.get('/:deviceCode/schedule', deviceAuth, async (request, response, next) => {
   try {
-    const device = await prisma.device.findUnique({
-      where: { deviceCode: request.params.deviceCode.toUpperCase() },
-    });
-
-    if (!device) {
-      return response.status(404).json({ message: 'Dispositivo não encontrado.' });
-    }
+    const device = request.device;
 
     const [schedules] = await prisma.$transaction([
       prisma.schedule.findMany({
-        where: { enabled: true },
+        where: {
+          deviceId: device.id,
+          enabled: true,
+        },
         include: { medication: true },
         orderBy: { time: 'asc' },
       }),
@@ -89,16 +97,11 @@ router.get('/:deviceCode/schedule', deviceAuth, async (request, response, next) 
 
 router.post('/:deviceCode/events', deviceAuth, async (request, response, next) => {
   try {
-    const device = await prisma.device.findUnique({
-      where: { deviceCode: request.params.deviceCode.toUpperCase() },
-    });
-
-    if (!device) {
-      return response.status(404).json({ message: 'Dispositivo não encontrado.' });
-    }
+    const device = request.device;
 
     const event = await createDoseEvent({
       deviceId: device.id,
+      ownerUserId: device.userId,
       payload: request.body,
     });
 
@@ -119,6 +122,36 @@ router.post('/:deviceCode/events', deviceAuth, async (request, response, next) =
   }
 });
 
+router.post('/:id/api-key', requireAuth, async (request, response, next) => {
+  const id = Number(request.params.id);
+
+  if (!Number.isInteger(id)) {
+    return response.status(400).json({ message: 'Dispositivo inválido.' });
+  }
+
+  try {
+    const device = await prisma.device.findFirst({
+      where: { id, userId: request.user.id },
+    });
+    if (!device) {
+      return response.status(404).json({ message: 'Dispositivo não encontrado.' });
+    }
+
+    const apiKey = generateDeviceKey();
+    await prisma.device.update({
+      where: { id },
+      data: { apiKeyHash: hashDeviceKey(apiKey) },
+    });
+
+    return response.json({
+      message: 'Nova chave gerada. Atualize o dispositivo antes de descartar esta resposta.',
+      apiKey,
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 router.get('/:id', requireAuth, async (request, response, next) => {
   const id = Number(request.params.id);
 
@@ -127,7 +160,9 @@ router.get('/:id', requireAuth, async (request, response, next) => {
   }
 
   try {
-    const device = await prisma.device.findUnique({ where: { id } });
+    const device = await prisma.device.findFirst({
+      where: { id, userId: request.user.id },
+    });
 
     if (!device) {
       return response.status(404).json({ message: 'Dispositivo não encontrado.' });

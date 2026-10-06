@@ -13,6 +13,7 @@ const $$ = (selector) => [...document.querySelectorAll(selector)];
 const medicationForm = $('#medicationForm');
 const scheduleForm = $('#scheduleForm');
 const medicationSelect = $('#scheduleMedication');
+const deviceSelect = $('#scheduleDevice');
 const toast = $('#toast');
 let toastTimer;
 
@@ -164,7 +165,23 @@ function renderMedicationOptions(selectedId = medicationSelect.value) {
     medicationSelect.value = String(selectedId);
   }
 
-  $('#scheduleSubmit').disabled = state.medications.length === 0;
+  $('#scheduleSubmit').disabled = state.medications.length === 0 || state.devices.length === 0;
+}
+
+function renderDeviceOptions(selectedId = deviceSelect.value) {
+  deviceSelect.replaceChildren(new Option('Selecione um dispositivo', ''));
+
+  state.devices.forEach((device) => {
+    deviceSelect.add(new Option(`${device.name} · ${device.deviceCode}`, device.id));
+  });
+
+  if (selectedId) {
+    deviceSelect.value = String(selectedId);
+  } else if (state.devices.length === 1) {
+    deviceSelect.value = String(state.devices[0].id);
+  }
+
+  $('#scheduleSubmit').disabled = state.medications.length === 0 || state.devices.length === 0;
 }
 
 function renderDashboard() {
@@ -254,7 +271,7 @@ function renderSchedules() {
       <span class="routine-time">${escapeHtml(schedule.time)}</span>
       <div class="item-info">
         <strong>${escapeHtml(schedule.medication.name)}</strong>
-        <span>${escapeHtml(schedule.medication.dosage)}</span>
+        <span>${escapeHtml(schedule.medication.dosage)} · ${escapeHtml(schedule.device.name)}</span>
       </div>
       <div class="item-actions">
         <button
@@ -347,6 +364,7 @@ function renderDevice() {
 
 function renderAll() {
   renderMedicationOptions();
+  renderDeviceOptions();
   renderDashboard();
   renderMedications();
   renderSchedules();
@@ -412,6 +430,7 @@ function resetScheduleForm() {
   $('#scheduleSubmit').textContent = 'Adicionar horário';
   $('#cancelScheduleEdit').hidden = true;
   renderMedicationOptions();
+  renderDeviceOptions();
 }
 
 function startScheduleEdit(id) {
@@ -419,6 +438,7 @@ function startScheduleEdit(id) {
   if (!schedule) return;
 
   $('#scheduleId').value = schedule.id;
+  deviceSelect.value = schedule.deviceId;
   medicationSelect.value = schedule.medicationId;
   $('#scheduleTime').value = schedule.time;
   $('#scheduleFormKicker').textContent = 'Editando horário';
@@ -462,6 +482,7 @@ scheduleForm.addEventListener('submit', async (event) => {
     await request(id ? `/api/schedules/${id}` : '/api/schedules', {
       method: id ? 'PUT' : 'POST',
       body: JSON.stringify({
+        deviceId: Number(deviceSelect.value),
         medicationId: Number(medicationSelect.value),
         time: $('#scheduleTime').value,
       }),
@@ -472,7 +493,7 @@ scheduleForm.addEventListener('submit', async (event) => {
   } catch (error) {
     showToast(error.message, 'error');
   } finally {
-    button.disabled = state.medications.length === 0;
+    button.disabled = state.medications.length === 0 || state.devices.length === 0;
   }
 });
 
