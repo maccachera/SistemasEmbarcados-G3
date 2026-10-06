@@ -3,6 +3,7 @@ const prisma = require('../lib/prisma');
 
 const router = express.Router();
 const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/;
+const legacyDeviceCode = 'SMARTDOSE-001';
 
 router.get('/', async (_request, response, next) => {
   try {
@@ -28,8 +29,17 @@ router.post('/', async (request, response, next) => {
   }
 
   try {
+    const device = await prisma.device.upsert({
+      where: { deviceCode: legacyDeviceCode },
+      update: {},
+      create: {
+        name: 'SmartDose Principal',
+        deviceCode: legacyDeviceCode,
+      },
+    });
+
     const schedule = await prisma.schedule.create({
-      data: { medicationId, time },
+      data: { deviceId: device.id, medicationId, time },
       include: { medication: true },
     });
 
