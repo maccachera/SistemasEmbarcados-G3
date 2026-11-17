@@ -1,0 +1,136 @@
+{"kind":"deck","id":"pr/susxb1","name":"Deck"}
+{"kind":"layout","layoutId":"844288ae-40ef-45aa-a086-ffd73a63799c","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"2e96f329-2994-4e3d-a4c3-d3d722f94b0e","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/w2l6mb","slide":1,"title":"SmartDose","textShapes":5}
+{"kind":"shape","id":"sh/1orm983a","slide":1,"bbox":[540,0,740,720]}
+{"kind":"shape","id":"sh/0nil032p","slide":1,"bbox":[68,110,84,7]}
+{"kind":"textbox","id":"sh/rip43el8","slide":1,"text":"SmartDose","textPreview":"SmartDose","textChars":9,"textLines":1,"bbox":[68,150,560,90]}
+{"kind":"textbox","id":"sh/qhg3u94n","slide":1,"text":"Dispensador inteligente de medicamentos baseado em IoT","textPreview":"Dispensador inteligente de medicamentos baseado em IoT","textChars":54,"textLines":1,"bbox":[70,248,530,110]}
+{"kind":"textbox","id":"sh/dk7m5o3y","slide":1,"text":"Yuri de Abreu de Melo\nGabriel Maccachero Araujo\nJoão Pedro Nicácio Athademos","textPreview":"Yuri de Abreu de Melo | Gabriel Maccachero Araujo | João Pedro Nicácio Athademos","textChars":76,"textLines":3,"bbox":[70,452,460,100]}
+{"kind":"textbox","id":"sh/cjylwjmt","slide":1,"text":"Sistemas Embarcados, 2026","textPreview":"Sistemas Embarcados, 2026","textChars":25,"textLines":1,"bbox":[70,610,400,30]}
+{"kind":"shape","id":"sh/vet4filc","slide":1,"bbox":[68,681,1144,1]}
+{"kind":"textbox","id":"sh/adk36dkr","slide":1,"text":"SMARTDOSE  |  SBrT 2026","textPreview":"SMARTDOSE  |  SBrT 2026","textChars":23,"textLines":1,"bbox":[68,688,260,18]}
+{"kind":"image","id":"im/rqdwvqhw","slide":1,"name":"","alt":"Protótipo em bancada do dispensador SmartDose","bbox":[620,0,660,720]}
+{"kind":"notes","id":"nt/w2l6mb","slide":1,"text":"Fonte principal: artigo fornecido pelo usuário, SmartDose: An Intelligent IoT-Based Medication Dispenser, SBrT 2026, p. 1 e Fig. 3, p. 3."}
+{"kind":"slide","id":"sl/cpytw0","slide":2,"title":"Problema e proposta","textShapes":17}
+{"kind":"textbox","id":"sh/9o3218fq","slide":2,"text":"Problema e proposta","textPreview":"Problema e proposta","textChars":19,"textLines":1,"bbox":[68,42,1050,62]}
+{"kind":"textbox","id":"sh/mls3qdwf","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1164,47,50,40]}
+{"kind":"textbox","id":"sh/7mlkzyx0","slide":2,"text":"O envelhecimento populacional aumenta a necessidade de apoio seguro à medicação, especialmente para pessoas com dificuldades de memória.","textPreview":"O envelhecimento populacional aumenta a necessidade de apoio seguro à medicação, especialmente para pessoas com dificuldades de memória.","textChars":136,"textLines":1,"bbox":[68,122,1144,72]}
+{"kind":"textbox","id":"sh/kjalo3e9","slide":2,"text":"57,4 mi","textPreview":"57,4 mi","textChars":7,"textLines":1,"bbox":[70,226,280,70]}
+{"kind":"textbox","id":"sh/lkj2x8fu","slide":2,"text":"pessoas com demência em 2019","textPreview":"pessoas com demência em 2019","textChars":28,"textLines":1,"bbox":[73,302,290,52]}
+{"kind":"shape","id":"sh/yhsjmtw3","slide":2,"bbox":[375,238,2,102]}
+{"kind":"textbox","id":"sh/zi1kvyxo","slide":2,"text":"152,8 mi","textPreview":"152,8 mi","textChars":8,"textLines":1,"bbox":[410,226,300,70]}
+{"kind":"textbox","id":"sh/cfa1kjed","slide":2,"text":"projeção global para 2050","textPreview":"projeção global para 2050","textChars":25,"textLines":1,"bbox":[413,302,270,52]}
+{"kind":"shape","id":"sh/xgj2tofi","slide":2,"bbox":[736,215,476,352]}
+{"kind":"textbox","id":"sh/d0v294ry","slide":2,"text":"O SmartDose busca reduzir","textPreview":"O SmartDose busca reduzir","textChars":25,"textLines":1,"bbox":[776,248,390,40]}
+{"kind":"shape","id":"sh/czml0zqd","slide":2,"bbox":[778,311,10,10]}
+{"kind":"textbox","id":"sh/rydk7u98","slide":2,"text":"Doses esquecidas","textPreview":"Doses esquecidas","textChars":16,"textLines":1,"bbox":[806,305,330,26]}
+{"kind":"textbox","id":"sh/qxk3yp8n","slide":2,"text":"alerta no horário e registro do evento","textPreview":"alerta no horário e registro do evento","textChars":38,"textLines":1,"bbox":[806,333,350,42]}
+{"kind":"shape","id":"sh/pwb25kr2","slide":2,"bbox":[778,389,10,10]}
+{"kind":"textbox","id":"sh/4v2lwfqh","slide":2,"text":"Doses duplicadas","textPreview":"Doses duplicadas","textChars":16,"textLines":1,"bbox":[806,383,330,26]}
+{"kind":"textbox","id":"sh/3utk3u9w","slide":2,"text":"dispensa apenas a dose programada","textPreview":"dispensa apenas a dose programada","textChars":33,"textLines":1,"bbox":[806,411,350,42]}
+{"kind":"shape","id":"sh/29k3up8b","slide":2,"bbox":[778,467,10,10]}
+{"kind":"textbox","id":"sh/h8b21krq","slide":2,"text":"Falta de supervisão","textPreview":"Falta de supervisão","textChars":19,"textLines":1,"bbox":[806,461,330,26]}
+{"kind":"textbox","id":"sh/g72lsfal","slide":2,"text":"monitoramento remoto por familiares ou cuidadores","textPreview":"monitoramento remoto por familiares ou cuidadores","textChars":49,"textLines":1,"bbox":[806,489,350,42]}
+{"kind":"textbox","id":"sh/8b6l8fi1","slide":2,"text":"Contribuição","textPreview":"Contribuição","textChars":12,"textLines":1,"bbox":[70,411,230,32]}
+{"kind":"textbox","id":"sh/tcfmhkzm","slide":2,"text":"Protótipo de baixo custo com componentes acessíveis, formato portátil e integração entre dispensação, sensores e notificações.","textPreview":"Protótipo de baixo custo com componentes acessíveis, formato portátil e integração entre dispensação, sensores e notificações.","textChars":126,"textLines":1,"bbox":[70,456,610,100]}
+{"kind":"shape","id":"sh/6p43650b","slide":2,"bbox":[68,681,1144,1]}
+{"kind":"textbox","id":"sh/7adkfahw","slide":2,"text":"SMARTDOSE  |  SBrT 2026","textPreview":"SMARTDOSE  |  SBrT 2026","textChars":23,"textLines":1,"bbox":[68,688,260,18]}
+{"kind":"notes","id":"nt/cpytw0","slide":2,"text":"Fonte principal: artigo fornecido pelo usuário, SmartDose: An Intelligent IoT-Based Medication Dispenser, SBrT 2026, p. 1.\nA projeção de prevalência é citada no artigo a partir do estudo Global Burden of Disease 2019."}
+{"kind":"slide","id":"sl/k8jdpj","slide":3,"title":"Arquitetura do sistema","textShapes":8}
+{"kind":"textbox","id":"sh/76tsfahk","slide":3,"text":"Arquitetura do sistema","textPreview":"Arquitetura do sistema","textChars":22,"textLines":1,"bbox":[68,42,1050,62]}
+{"kind":"textbox","id":"sh/8729ofy5","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1164,47,50,40]}
+{"kind":"textbox","id":"sh/t8bahkfa","slide":3,"text":"Dispositivo embarcado","textPreview":"Dispositivo embarcado","textChars":21,"textLines":1,"bbox":[68,140,420,34]}
+{"kind":"textbox","id":"sh/u9krqpgv","slide":3,"text":"ESP32-WROOM-32 executa o firmware e conecta o protótipo à rede Wi-Fi. O RTC DS3231 mantém o horário, enquanto HX711, célula de carga, motor de passo, buzzer e LEDs realizam sensoriamento e atuação.","textPreview":"ESP32-WROOM-32 executa o firmware e conecta o protótipo à rede Wi-Fi. O RTC DS3231 mantém o horário, enquanto HX711, célula de carga, mot...","textChars":197,"textLines":1,"bbox":[68,186,455,154]}
+{"kind":"textbox","id":"sh/vatsjuxg","slide":3,"text":"Backend e interface","textPreview":"Backend e interface","textChars":19,"textLines":1,"bbox":[68,382,420,34]}
+{"kind":"textbox","id":"sh/gv29czy1","slide":3,"text":"A API REST em Node.js e Express centraliza a comunicação. Prisma acessa o PostgreSQL no Supabase. A aplicação web configura horários e exibe o histórico de eventos.","textPreview":"A API REST em Node.js e Express centraliza a comunicação. Prisma acessa o PostgreSQL no Supabase. A aplicação web configura horários e ex...","textChars":164,"textLines":1,"bbox":[68,427,455,135]}
+{"kind":"shape","id":"sh/hwbal4fm","slide":3,"bbox":[582,126,630,492]}
+{"kind":"textbox","id":"sh/be987qhc","slide":3,"text":"O ESP32 não acessa o banco diretamente. A API usa chaves específicas por dispositivo e sessões autenticadas para usuários.","textPreview":"O ESP32 não acessa o banco diretamente. A API usa chaves específicas por dispositivo e sessões autenticadas para usuários.","textChars":122,"textLines":1,"bbox":[68,590,1080,54]}
+{"kind":"shape","id":"sh/jypk7i1c","slide":3,"bbox":[68,681,1144,1]}
+{"kind":"textbox","id":"sh/ixgjedk7","slide":3,"text":"SMARTDOSE  |  SBrT 2026","textPreview":"SMARTDOSE  |  SBrT 2026","textChars":23,"textLines":1,"bbox":[68,688,260,18]}
+{"kind":"image","id":"im/36tgbqpo","slide":3,"name":"","alt":"Modelo de comunicação entre aplicação web, API REST, banco de dados e ESP32","bbox":[620,147,555,450]}
+{"kind":"notes","id":"nt/k8jdpj","slide":3,"text":"Fonte principal: artigo fornecido pelo usuário, SmartDose: An Intelligent IoT-Based Medication Dispenser, SBrT 2026, Fig. 2, p. 2 e Seção III-A, p. 2."}
+{"kind":"slide","id":"sl/tq570a","slide":4,"title":"Protótipo em bancada","textShapes":7}
+{"kind":"textbox","id":"sh/ihova9o3","slide":4,"text":"Protótipo em bancada","textPreview":"Protótipo em bancada","textChars":20,"textLines":1,"bbox":[68,42,1050,62]}
+{"kind":"textbox","id":"sh/5kzulo7u","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1164,47,50,40]}
+{"kind":"shape","id":"sh/kj6dcj69","slide":4,"bbox":[68,124,745,470]}
+{"kind":"textbox","id":"sh/6l8vetof","slide":4,"text":"Componentes","textPreview":"Componentes","textChars":11,"textLines":1,"bbox":[854,137,300,40]}
+{"kind":"textbox","id":"sh/tozepo7q","slide":4,"text":"1  ESP32-WROOM-32\n2  RTC DS3231\n3  Amplificador HX711\n4  Célula de carga\n5  Motor de passo\n6  Driver ULN2003\n7  Buzzer ativo\n8  LEDs de estado","textPreview":"1  ESP32-WROOM-32 | 2  RTC DS3231 | 3  Amplificador HX711 | 4  Célula de carga | 5  Motor de passo | 6  Driver ULN2003 | 7  Buzzer ativo ...","textChars":142,"textLines":8,"bbox":[856,195,330,270]}
+{"kind":"shape","id":"sh/snqdgj6l","slide":4,"bbox":[846,505,366,128]}
+{"kind":"textbox","id":"sh/nqdcbupg","slide":4,"text":"Escopo desta versão","textPreview":"Escopo desta versão","textChars":19,"textLines":1,"bbox":[870,526,320,26]}
+{"kind":"textbox","id":"sh/mp4v2pob","slide":4,"text":"Eletrônica, firmware e integração com a nuvem. A estrutura mecânica e o gabinete ainda não foram implementados.","textPreview":"Eletrônica, firmware e integração com a nuvem. A estrutura mecânica e o gabinete ainda não foram implementados.","textChars":111,"textLines":1,"bbox":[870,554,310,68]}
+{"kind":"shape","id":"sh/4zidcfml","slide":4,"bbox":[68,681,1144,1]}
+{"kind":"textbox","id":"sh/50relk36","slide":4,"text":"SMARTDOSE  |  SBrT 2026","textPreview":"SMARTDOSE  |  SBrT 2026","textChars":23,"textLines":1,"bbox":[68,688,260,18]}
+{"kind":"image","id":"im/ylszy1cr","slide":4,"name":"","alt":"Protótipo SmartDose em protoboard com componentes numerados","bbox":[84,141,713,435]}
+{"kind":"notes","id":"nt/tq570a","slide":4,"text":"Fonte principal: artigo fornecido pelo usuário, SmartDose: An Intelligent IoT-Based Medication Dispenser, SBrT 2026, Fig. 3 e Seção III-B, p. 3."}
+{"kind":"slide","id":"sl/rk19vb","slide":5,"title":"Operação do firmware","textShapes":10}
+{"kind":"textbox","id":"sh/x4jydov2","slide":5,"text":"Operação do firmware","textPreview":"Operação do firmware","textChars":20,"textLines":1,"bbox":[68,42,1050,62]}
+{"kind":"textbox","id":"sh/a1sfitwr","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1164,47,50,40]}
+{"kind":"textbox","id":"sh/v21gbedc","slide":5,"text":"1 min","textPreview":"1 min","textChars":5,"textLines":1,"bbox":[82,122,150,46]}
+{"kind":"textbox","id":"sh/47axo3ut","slide":5,"text":"verificação do horário","textPreview":"verificação do horário","textChars":22,"textLines":1,"bbox":[82,169,250,36]}
+{"kind":"shape","id":"sh/583yh8ve","slide":5,"bbox":[382,130,2,62]}
+{"kind":"textbox","id":"sh/i5sfmtwn","slide":5,"text":"5 min","textPreview":"5 min","textChars":5,"textLines":1,"bbox":[464,122,150,46]}
+{"kind":"textbox","id":"sh/j61gfyd8","slide":5,"text":"atualização da agenda","textPreview":"atualização da agenda","textChars":21,"textLines":1,"bbox":[464,169,250,36]}
+{"kind":"shape","id":"sh/0bqxczep","slide":5,"bbox":[764,130,2,62]}
+{"kind":"textbox","id":"sh/lcze54vu","slide":5,"text":"30 min","textPreview":"30 min","textChars":6,"textLines":1,"bbox":[846,122,150,46]}
+{"kind":"textbox","id":"sh/90ja10fq","slide":5,"text":"registro de dose não retirada","textPreview":"registro de dose não retirada","textChars":29,"textLines":1,"bbox":[846,169,250,36]}
+{"kind":"shape","id":"sh/ozat8fyl","slide":5,"bbox":[62,227,1156,344]}
+{"kind":"textbox","id":"sh/mxsb65gf","slide":5,"text":"Quando chega o horário, o motor avança um compartimento de 51,4°. A variação de peso confirma a queda da dose. Buzzer e LED vermelho permanecem ativos até a retirada, registrada no backend.","textPreview":"Quando chega o horário, o motor avança um compartimento de 51,4°. A variação de peso confirma a queda da dose. Buzzer e LED vermelho perm...","textChars":189,"textLines":1,"bbox":[80,596,1110,54]}
+{"kind":"shape","id":"sh/xo3a5kf2","slide":5,"bbox":[68,681,1144,1]}
+{"kind":"textbox","id":"sh/wnutcfyh","slide":5,"text":"SMARTDOSE  |  SBrT 2026","textPreview":"SMARTDOSE  |  SBrT 2026","textChars":23,"textLines":1,"bbox":[68,688,260,18]}
+{"kind":"image","id":"im/gjmxcrep","slide":5,"name":"","alt":"Fluxograma de inicialização, dispensação, confirmação por peso e registro de eventos","bbox":[78,246,1124,300]}
+{"kind":"notes","id":"nt/rk19vb","slide":5,"text":"Fonte principal: artigo fornecido pelo usuário, SmartDose: An Intelligent IoT-Based Medication Dispenser, SBrT 2026, Fig. 4 e Seção III-B, p. 3."}
+{"kind":"slide","id":"sl/a9pqv8","slide":6,"title":"Protocolo experimental","textShapes":6}
+{"kind":"textbox","id":"sh/7q5s7i9w","slide":6,"text":"Protocolo experimental","textPreview":"Protocolo experimental","textChars":22,"textLines":1,"bbox":[68,42,1050,62]}
+{"kind":"textbox","id":"sh/8ry90nqh","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1164,47,50,40]}
+{"kind":"textbox","id":"sh/ts7a9sr2","slide":6,"text":"Os testes avaliaram as funções centrais disponíveis no protótipo em bancada.","textPreview":"Os testes avaliaram as funções centrais disponíveis no protótipo em bancada.","textChars":76,"textLines":1,"bbox":[68,112,1000,38]}
+{"kind":"shape","id":"sh/vupsb298","slide":6,"bbox":[68,530,1144,104]}
+{"kind":"textbox","id":"sh/gvy947qt","slide":6,"text":"Limites do ensaio","textPreview":"Limites do ensaio","textChars":17,"textLines":1,"bbox":[92,552,250,26]}
+{"kind":"textbox","id":"sh/hw7adcre","slide":6,"text":"A célula de carga danificada impediu a validação experimental da confirmação por peso. O protótipo também operou sem sensor de referência e com validação do certificado TLS desativada.","textPreview":"A célula de carga danificada impediu a validação experimental da confirmação por peso. O protótipo também operou sem sensor de referência...","textChars":184,"textLines":1,"bbox":[294,548,875,62]}
+{"kind":"shape","id":"sh/2xgr6h8j","slide":6,"bbox":[68,681,1144,1]}
+{"kind":"textbox","id":"sh/3y9sf294","slide":6,"text":"SMARTDOSE  |  SBrT 2026","textPreview":"SMARTDOSE  |  SBrT 2026","textChars":23,"textLines":1,"bbox":[68,688,260,18]}
+{"kind":"table","id":"tb/rm5836hc","slide":6,"name":"","rows":5,"cols":3,"preview":"Teste | Protocolo | Medida observada","bbox":[68,170,1144,330]}
+{"kind":"notes","id":"nt/a9pqv8","slide":6,"text":"Fonte principal: artigo fornecido pelo usuário, SmartDose: An Intelligent IoT-Based Medication Dispenser, SBrT 2026, Seção IV, pp. 3-4."}
+{"kind":"slide","id":"sl/4et6ky","slide":7,"title":"Resultados experimentais","textShapes":12}
+{"kind":"textbox","id":"sh/9ojutofa","slide":7,"text":"Resultados experimentais","textPreview":"Resultados experimentais","textChars":24,"textLines":1,"bbox":[68,42,1050,62]}
+{"kind":"textbox","id":"sh/ml8by9gz","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1164,47,50,40]}
+{"kind":"textbox","id":"sh/nm1crexk","slide":7,"text":"100%","textPreview":"100%","textChars":4,"textLines":1,"bbox":[68,120,220,58]}
+{"kind":"textbox","id":"sh/wbado3y1","slide":7,"text":"10 de 10 reconexões Wi-Fi","textPreview":"10 de 10 reconexões Wi-Fi","textChars":25,"textLines":1,"bbox":[68,179,235,50]}
+{"kind":"shape","id":"sh/xcjux8fm","slide":7,"bbox":[325,128,1,82]}
+{"kind":"textbox","id":"sh/apsbmtgv","slide":7,"text":"92,9%","textPreview":"92,9%","textChars":5,"textLines":1,"bbox":[354,120,220,58]}
+{"kind":"textbox","id":"sh/bq1cvyxg","slide":7,"text":"13 de 14 sincronizações HTTP","textPreview":"13 de 14 sincronizações HTTP","textChars":28,"textLines":1,"bbox":[354,179,235,50]}
+{"kind":"shape","id":"sh/kfuds3ex","slide":7,"bbox":[611,128,1,82]}
+{"kind":"textbox","id":"sh/lg3u18fi","slide":7,"text":"3,2 s","textPreview":"3,2 s","textChars":5,"textLines":1,"bbox":[640,120,220,58]}
+{"kind":"textbox","id":"sh/twjip0r6","slide":7,"text":"latência média das requisições válidas","textPreview":"latência média das requisições válidas","textChars":38,"textLines":1,"bbox":[640,179,235,50]}
+{"kind":"shape","id":"sh/sva1wval","slide":7,"bbox":[897,128,1,82]}
+{"kind":"textbox","id":"sh/7u10nq90","slide":7,"text":"0°","textPreview":"0°","textChars":2,"textLines":1,"bbox":[926,120,220,58]}
+{"kind":"textbox","id":"sh/6t8ju5sf","slide":7,"text":"erro acumulado visível após 28 passos","textPreview":"erro acumulado visível após 28 passos","textChars":37,"textLines":1,"bbox":[926,179,235,50]}
+{"kind":"textbox","id":"sh/fy10ra9w","slide":7,"text":"O RTC manteve e avançou o horário em sete reinicializações após a instalação da bateria CR2032.","textPreview":"O RTC manteve e avançou o horário em sete reinicializações após a instalação da bateria CR2032.","textChars":95,"textLines":1,"bbox":[68,621,1100,32]}
+{"kind":"shape","id":"sh/uxsjy5sr","slide":7,"bbox":[68,681,1144,1]}
+{"kind":"textbox","id":"sh/x4zihgry","slide":7,"text":"SMARTDOSE  |  SBrT 2026","textPreview":"SMARTDOSE  |  SBrT 2026","textChars":23,"textLines":1,"bbox":[68,688,260,18]}
+{"kind":"chart","id":"ch/l8zahwzi","slide":7,"name":"","chartType":"bar","title":"Reconexão Wi-Fi (tentativas)","bbox":[68,272,540,330]}
+{"kind":"chart","id":"ch/k7qtorix","slide":7,"name":"","chartType":"bar","title":"Sincronização da agenda (requisições)","bbox":[672,272,540,330]}
+{"kind":"notes","id":"nt/4et6ky","slide":7,"text":"Fonte principal: artigo fornecido pelo usuário, SmartDose: An Intelligent IoT-Based Medication Dispenser, SBrT 2026, Figs. 5-8 e Seção IV, p. 4.\nLatência média exata relatada: 3.177 ms. Faixa: 2.449 a 5.676 ms."}
+{"kind":"slide","id":"sl/v1zxo2","slide":8,"title":"Conclusões e próximos passos","textShapes":14}
+{"kind":"textbox","id":"sh/k36t0ra5","slide":8,"text":"Conclusões e próximos passos","textPreview":"Conclusões e próximos passos","textChars":28,"textLines":1,"bbox":[68,42,1050,62]}
+{"kind":"textbox","id":"sh/z2xc7mtk","slide":8,"text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1164,47,50,40]}
+{"kind":"shape","id":"sh/yhobyhsz","slide":8,"bbox":[68,135,520,260]}
+{"kind":"textbox","id":"sh/cfmtw7at","slide":8,"text":"O protótipo confirmou a viabilidade da integração entre eletrônica embarcada, agenda em nuvem e registro de eventos.","textPreview":"O protótipo confirmou a viabilidade da integração entre eletrônica embarcada, agenda em nuvem e registro de eventos.","textChars":116,"textLines":1,"bbox":[68,430,530,110]}
+{"kind":"textbox","id":"sh/beds32to","slide":8,"text":"A validação ainda não cobre o mecanismo final, a precisão da célula de carga nem testes com usuários.","textPreview":"A validação ainda não cobre o mecanismo final, a precisão da célula de carga nem testes com usuários.","textChars":101,"textLines":1,"bbox":[68,560,530,64]}
+{"kind":"textbox","id":"sh/ad4buxs3","slide":8,"text":"Evolução necessária","textPreview":"Evolução necessária","textChars":19,"textLines":1,"bbox":[678,146,460,44]}
+{"kind":"textbox","id":"sh/pcva1cbi","slide":8,"text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[678,218,56,34]}
+{"kind":"textbox","id":"sh/obmts7ax","slide":8,"text":"Calibrar a célula de carga e validar a detecção da dose","textPreview":"Calibrar a célula de carga e validar a detecção da dose","textChars":55,"textLines":1,"bbox":[747,216,450,54]}
+{"kind":"shape","id":"sh/ydcn2dc7","slide":8,"bbox":[678,276,520,1]}
+{"kind":"textbox","id":"sh/zelobids","slide":8,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[678,310,56,34]}
+{"kind":"textbox","id":"sh/0fu54nud","slide":8,"text":"Adicionar sensor de referência ou encoder ao disco","textPreview":"Adicionar sensor de referência ou encoder ao disco","textChars":50,"textLines":1,"bbox":[747,308,450,54]}
+{"kind":"shape","id":"sh/lg36dsvi","slide":8,"bbox":[678,368,520,1]}
+{"kind":"textbox","id":"sh/qpsnydcv","slide":8,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[678,402,56,34]}
+{"kind":"textbox","id":"sh/bqlo7idg","slide":8,"text":"Construir o gabinete 3D com acesso controlado aos compartimentos","textPreview":"Construir o gabinete 3D com acesso controlado aos compartimentos","textChars":64,"textLines":1,"bbox":[747,400,450,54]}
+{"kind":"shape","id":"sh/cbu50nu1","slide":8,"bbox":[678,460,520,1]}
+{"kind":"textbox","id":"sh/dc3698vm","slide":8,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[678,494,56,34]}
+{"kind":"textbox","id":"sh/2lsnutcz","slide":8,"text":"Ativar TLS estrito, agenda por dia da semana e testes com usuários","textPreview":"Ativar TLS estrito, agenda por dia da semana e testes com usuários","textChars":66,"textLines":1,"bbox":[747,492,450,54]}
+{"kind":"shape","id":"sh/3m143ydk","slide":8,"bbox":[678,552,520,1]}
+{"kind":"shape","id":"sh/7excfap0","slide":8,"bbox":[68,681,1144,1]}
+{"kind":"textbox","id":"sh/6d4bm5of","slide":8,"text":"SMARTDOSE  |  SBrT 2026","textPreview":"SMARTDOSE  |  SBrT 2026","textChars":23,"textLines":1,"bbox":[68,688,260,18]}
+{"kind":"image","id":"im/ozutkjid","slide":8,"name":"","alt":"Esquema elétrico do protótipo SmartDose","bbox":[91,157,474,220]}
+{"kind":"notes","id":"nt/v1zxo2","slide":8,"text":"Fonte principal: artigo fornecido pelo usuário, SmartDose: An Intelligent IoT-Based Medication Dispenser, SBrT 2026, Seção V, pp. 4-5."}

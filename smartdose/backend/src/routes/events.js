@@ -12,6 +12,7 @@ router.get('/', async (request, response, next) => {
 
   try {
     const events = await prisma.doseEvent.findMany({
+      where: { device: { userId: request.user.id } },
       take: limit,
       include: {
         device: true,
@@ -35,12 +36,18 @@ router.post('/', async (request, response, next) => {
   }
 
   try {
-    const device = await prisma.device.findUnique({ where: { id: deviceId } });
+    const device = await prisma.device.findFirst({
+      where: { id: deviceId, userId: request.user.id },
+    });
     if (!device) {
       return response.status(404).json({ message: 'Dispositivo não encontrado.' });
     }
 
-    const event = await createDoseEvent({ deviceId, payload: request.body });
+    const event = await createDoseEvent({
+      deviceId,
+      ownerUserId: request.user.id,
+      payload: request.body,
+    });
     return response.status(201).json(event);
   } catch (error) {
     if (error instanceof EventValidationError) {
